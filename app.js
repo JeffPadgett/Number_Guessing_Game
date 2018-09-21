@@ -30,19 +30,39 @@ maxNum.textContent = max;
 
 guessBtn.addEventListener('click', function(){
     let guess = parseInt(guessInput.value);
-    
 
     // Validate
     if(guess > max || guess < min || isNaN(guess)){
-        setMessage(`Please enter a number between ${min} and ${max}`);
+        setMessage(`Please enter a number between ${min} and ${max}`, 'red');
+    }
+
+    // Check if won
+    if(guess === winningNum){
+        // Disable input
+        guessInput.disabled = true;
+        // Change border color
+        guessInput.style.borderColor = 'green';
+        // Set message
+        setMessage(`${winningNum} is correct! YOU WIN!!!`, 'green');
+    } else {
+        //Wrong number
+        guessesLeft --;
+        setMessage(`Try again! Guesses left ${guessesLeft}`)
+        if(guessesLeft <= 0){
+        guessInput.disabled = true;
+        guessInput.style.borderColor = 'red';
+        setMessage(`Out of chances! The number was ${winningNum}. Try Again!`)
+
+        }
+        
     }
 
 });
 
 // Set Message 
 
-function setMessage(msg){
-    message.style.color = "red";
+function setMessage(msg, color){
+    message.style.color = color;
     message.textContent = msg;
 }
 
